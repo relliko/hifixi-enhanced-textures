@@ -25,6 +25,8 @@ tests/fake_esrgan.cpp
 tests/pack_oracle.py
 tests/texmake_oracle.py
 tests/texpack_test.cpp
+tools/texpack/bc7.cpp
+tools/texpack/bc7.hpp
 tools/texpack/fetch.cpp
 tools/texpack/image_io.cpp
 tools/texpack/image_io.hpp

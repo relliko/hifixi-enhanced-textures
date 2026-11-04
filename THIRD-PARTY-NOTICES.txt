@@ -1,0 +1,41 @@
+Third-party software used by hifixi-texpack
+===========================================
+
+1. texconv.exe (shipped in the release zip)
+   Microsoft DirectXTex, release may2026, https://github.com/microsoft/DirectXTex
+   Used to compress the pack's colour to BC7. Its licence:
+
+       MIT License
+   
+       Copyright (c) Microsoft Corporation.
+   
+       Permission is hereby granted, free of charge, to any person obtaining a copy
+       of this software and associated documentation files (the "Software"), to deal
+       in the Software without restriction, including without limitation the rights
+       to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+       copies of the Software, and to permit persons to whom the Software is
+       furnished to do so, subject to the following conditions:
+   
+       The above copyright notice and this permission notice shall be included in all
+       copies or substantial portions of the Software.
+   
+       THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+       IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+       FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+       AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+       LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+       OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+       SOFTWARE
+
+2. HDCube upscaling model (shipped in the release zip, models-hdcube\)
+   4x_HDCube_200k by Venomalia, https://github.com/Venomalia/HDcube
+   Licence: CC0-1.0 (public domain dedication). Converted to the ncnn format used by realesrgan-ncnn-vulkan;
+   models-hdcube\PROVENANCE.txt says how, with the files' SHA-256.
+
+3. Real-ESRGAN (NOT shipped: "hifixi-texpack get-upscaler" downloads the authors' own release on your OK)
+   realesrgan-ncnn-vulkan-20220424-windows.zip from https://github.com/xinntao/Real-ESRGAN/releases/tag/v0.2.5.0
+   Real-ESRGAN (xinntao): BSD-3-Clause. Real-ESRGAN-ncnn-vulkan (xinntao): MIT. ncnn (Tencent): BSD-3-Clause.
+   The program runs the HDCube model above (and its own x4plus model with --upscaler-model x4plus).
+
+FINAL FANTASY XI and its artwork belong to SQUARE ENIX. No game data is included; the pack is made on your PC from
+your own game files.

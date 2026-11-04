@@ -18,40 +18,39 @@ game's own texture.
 ## Make the pack on your own PC
 
 This repository is the tool that makes the pack, `hifixi-texpack.exe`. It reads your own game files, makes each texture
-bigger with the Real-ESRGAN upscaler on your graphics card, keeps every hand-painted texel's colour, and writes the pack
-folder HiFi XI reads. It never changes a game file and writes only into the pack folder.
+bigger on your graphics card with the HDCube upscaling model (trained on GameCube and Wii textures, which are compressed
+the way FFXI's are), keeps every hand-painted texel's colour, compresses the result as BC7, and writes the pack folder
+HiFi XI reads. It never changes a game file and writes only into the pack folder.
 
-1. **Get the tool.** Download `hifixi-texpack-v0.1.zip` from this repository's
-   [releases](https://github.com/relliko/hifixi-enhanced-textures/releases) and unzip it anywhere (not inside the game's
-   folder). Or build it yourself with `build.cmd` (Visual Studio 2022 or newer with "Desktop development with C++"); it
-   ends up in `build\hifixi-texpack.exe`. Run the commands below in a command prompt in the tool's folder.
-2. **Get the upscaler** (once). The tool doesn't include it: it downloads the authors' own release from GitHub after you
-   say yes, checks its size and SHA-256, and keeps only what it needs, next to the tool in `upscaler\`:
+1. **Get the tool.** Download `hifixi-texpack-v0.2.zip` from this repository's
+   [releases](https://github.com/relliko/hifixi-enhanced-textures/releases) and unzip it anywhere, but not inside the
+   game's folder. It holds the tool, `texconv.exe` (Microsoft's, for BC7) and the HDCube model. Run the commands below in
+   a command prompt in that folder.
+2. **Get the upscaler program** (once). It isn't included: the tool downloads Real-ESRGAN's own release from GitHub after
+   you say yes, checks its size and SHA-256, keeps only what it needs in `upscaler\`, and puts the HDCube model beside it:
 
    ```
    hifixi-texpack get-upscaler
    ```
 
-   Real-ESRGAN is xinntao's (BSD-3-Clause; the Windows program MIT, with Tencent's ncnn, BSD-3-Clause). Details:
-   [docs/texture-pack/upscaler.md](docs/texture-pack/upscaler.md).
-3. **Close the game and make the pack:**
+3. **Close the game and make the pack.** Give it your game's folder: Phoenix's `SquareEnix\FINAL FANTASY XI`, not an old
+   retail install in Program Files (it refuses one it can't check):
 
    ```
-   hifixi-texpack make --out C:\Games\PhoenixXI\bootloader\hifixi-pack
+   hifixi-texpack make --ffxi "C:\Games\PhoenixXI\SquareEnix\FINAL FANTASY XI" --out C:\Games\PhoenixXI\bootloader\hifixi-pack
    ```
 
-   It finds the game folder itself (or give `--ffxi "<...>\SquareEnix\FINAL FANTASY XI"`). Scenery is made at 2x, models
-   at 4x. It takes hours: a few for the whole game on a fast graphics card, longer on a slower one. For a quicker pack
-   with the scenery only, add `--kind zone`.
-   - It runs at low priority. If you start the game while it works, it stops the upscaler and waits; it carries on by
-     itself a minute after you close the game.
+   Scenery is made at 2x, models at 4x. On an RTX 4070 Ti the whole game took 42 minutes; a slower graphics card takes
+   longer. For a quicker pack with the scenery only, add `--kind zone`. The pack is about 7 GB.
+   - It runs at low priority. If you start the game while it works, it stops and waits; it carries on by itself a
+     minute after you close the game.
    - To stop it, press Ctrl+C or create a file named `stop` in the pack folder. Run the same command again and it
      carries on where it stopped.
-   - `progress.txt` in the pack folder says how far it is, and HiFi XI's menu shows the same in its "Texture pack"
-     section. `texpack.log` there has everything it printed.
+   - `progress.txt` in the pack folder says how far it is; `texpack.log` there has everything it printed.
 4. Turn the pack on in game as in [Install a pack you already have](#install-a-pack-you-already-have) step 3.
 
-When Phoenix updates the game, run `make` again: it redoes only what changed.
+When Phoenix updates the game, run `make` again: it redoes only what changed. A pack made with v0.1 is remade the new way
+(HDCube, BC7) by running v0.2's `make` over it. For the old look, `--upscaler-model x4plus --colour bc2`.
 
 ## Install a pack you already have
 
@@ -121,6 +120,8 @@ Nothing else was changed, so nothing else needs undoing.
 
 The pack is the game's own textures upscaled. FINAL FANTASY XI and its artwork belong to SQUARE ENIX. This pack is an
 unofficial fan modification, not made or supported by Square Enix or by Phoenix.
+
+Third-party software the tool uses (texconv, the HDCube model, Real-ESRGAN) and their licences: `THIRD-PARTY-NOTICES.txt`.
 
 ## For developers
 

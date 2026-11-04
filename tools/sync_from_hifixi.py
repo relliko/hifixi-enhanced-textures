@@ -9,7 +9,7 @@ HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # What tools\build_texpack.cmd in HiFi XI compiles for the tool, its test and the fake upscaler
 ROOTS = [
     'tools/texpack/texpack.cpp', 'tools/texpack/keys.cpp', 'tools/texpack/make.cpp', 'tools/texpack/fetch.cpp',
-    'tools/texpack/upscale.cpp', 'tools/texpack/keeptexels.cpp', 'tools/texpack/image_io.cpp',
+    'tools/texpack/upscale.cpp', 'tools/texpack/keeptexels.cpp', 'tools/texpack/image_io.cpp', 'tools/texpack/bc7.cpp',
     'src/pack/pack.cpp', 'src/pack/pack_write.cpp', 'src/pack/bc2.cpp', 'src/pack/hash.cpp', 'src/pack/validate.cpp',
     'src/bake/dat_core.cpp', 'src/bake/zonemesh.cpp', 'src/chars/tex.cpp', 'src/chars/os2.cpp',
     'tests/texpack_test.cpp', 'tests/fake_esrgan.cpp',
@@ -45,6 +45,12 @@ def main():
         os.makedirs(os.path.dirname(out), exist_ok=True)
         shutil.copyfile(os.path.join(src, rel), out)
     open(listed, 'w', newline='\r\n').write('\n'.join(files) + '\n')
+    # build.cmd: this repo's header on HiFi XI's tools\build_texpack.cmd from its "set "VSDIR="" line
+    ours = open(os.path.join(HERE, 'build.cmd'), encoding='utf-8').read().replace('\r\n', '\n')
+    theirs = open(os.path.join(src, 'tools', 'build_texpack.cmd'), encoding='utf-8').read().replace('\r\n', '\n')
+    mark = 'set "VSDIR="'
+    open(os.path.join(HERE, 'build.cmd'), 'w', encoding='utf-8', newline='\r\n').write(
+        ours[:ours.index(mark)] + theirs[theirs.index(mark):])
     commit = subprocess.run(['git', '-C', src, 'rev-parse', 'HEAD'], capture_output=True, text=True).stdout.strip()
     open(os.path.join(HERE, 'SOURCE.txt'), 'w', newline='\r\n').write(
         'The files listed in tools\\synced.txt are copied from HiFi XI (https://github.com/relliko/hifixi)\n'
