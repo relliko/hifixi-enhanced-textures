@@ -1,0 +1,2 @@
+The files listed in tools\synced.txt are copied from HiFi XI (https://github.com/relliko/hifixi)
+at commit 198e154c7049a5090fba98d42b4983f4361abf49 by tools\sync_from_hifixi.py. Change them there, then sync.

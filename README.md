@@ -15,7 +15,43 @@ game's own texture.
   card is nearly full, HiFi XI skips the sharpest level of new textures and then hands the least recently seen characters
   back to the game's textures, so a smaller card still works, just less sharply.
 
-## Install
+## Make the pack on your own PC
+
+This repository is the tool that makes the pack, `hifixi-texpack.exe`. It reads your own game files, makes each texture
+bigger with the Real-ESRGAN upscaler on your graphics card, keeps every hand-painted texel's colour, and writes the pack
+folder HiFi XI reads. It never changes a game file and writes only into the pack folder.
+
+1. **Get the tool.** Build it with `build.cmd` (needs Visual Studio 2022 or newer with "Desktop development with C++");
+   it ends up in `build\hifixi-texpack.exe`.
+2. **Get the upscaler** (once). The tool doesn't include it: it downloads the authors' own release from GitHub after you
+   say yes, checks its size and SHA-256, and keeps only what it needs, next to the tool in `upscaler\`:
+
+   ```
+   hifixi-texpack get-upscaler
+   ```
+
+   Real-ESRGAN is xinntao's (BSD-3-Clause; the Windows program MIT, with Tencent's ncnn, BSD-3-Clause). Details:
+   [docs/texture-pack/upscaler.md](docs/texture-pack/upscaler.md).
+3. **Close the game and make the pack:**
+
+   ```
+   hifixi-texpack make --out C:\Games\PhoenixXI\bootloader\hifixi-pack
+   ```
+
+   It finds the game folder itself (or give `--ffxi "<...>\SquareEnix\FINAL FANTASY XI"`). Scenery is made at 2x, models
+   at 4x. It takes hours: a few for the whole game on a fast graphics card, longer on a slower one. For a quicker pack
+   with the scenery only, add `--kind zone`.
+   - It runs at low priority. If you start the game while it works, it stops the upscaler and waits; it carries on by
+     itself a minute after you close the game.
+   - To stop it, press Ctrl+C or create a file named `stop` in the pack folder. Run the same command again and it
+     carries on where it stopped.
+   - `progress.txt` in the pack folder says how far it is, and HiFi XI's menu shows the same in its "Texture pack"
+     section. `texpack.log` there has everything it printed.
+4. Turn the pack on in game as in [Install a pack you already have](#install-a-pack-you-already-have) step 3.
+
+When Phoenix updates the game, run `make` again: it redoes only what changed.
+
+## Install a pack you already have
 
 1. Close the game.
 2. Unzip the pack so you have a folder named `hifixi-pack` inside the `bootloader` folder, next to HiFi XI's `dxgi.dll` and
@@ -83,3 +119,10 @@ Nothing else was changed, so nothing else needs undoing.
 
 The pack is the game's own textures upscaled. FINAL FANTASY XI and its artwork belong to SQUARE ENIX. This pack is an
 unofficial fan modification, not made or supported by Square Enix or by Phoenix.
+
+## For developers
+
+The sources here are copied from [HiFi XI](https://github.com/relliko/hifixi), which keeps the pack format its plugin
+reads (`SOURCE.txt` names the commit; `tools/synced.txt` lists the files). Change them there, then
+`python -I tools/sync_from_hifixi.py <hifixi checkout>`. `build\texpack_test.exe` runs the tests; the ones that need
+the game's files skip themselves when the game isn't installed. The pack format: `docs/texture-pack/format.md`.
