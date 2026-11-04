@@ -21,8 +21,10 @@ This repository is the tool that makes the pack, `hifixi-texpack.exe`. It reads 
 bigger with the Real-ESRGAN upscaler on your graphics card, keeps every hand-painted texel's colour, and writes the pack
 folder HiFi XI reads. It never changes a game file and writes only into the pack folder.
 
-1. **Get the tool.** Build it with `build.cmd` (needs Visual Studio 2022 or newer with "Desktop development with C++");
-   it ends up in `build\hifixi-texpack.exe`.
+1. **Get the tool.** Download `hifixi-texpack-v0.1.zip` from this repository's
+   [releases](https://github.com/relliko/hifixi-enhanced-textures/releases) and unzip it anywhere (not inside the game's
+   folder). Or build it yourself with `build.cmd` (Visual Studio 2022 or newer with "Desktop development with C++"); it
+   ends up in `build\hifixi-texpack.exe`. Run the commands below in a command prompt in the tool's folder.
 2. **Get the upscaler** (once). The tool doesn't include it: it downloads the authors' own release from GitHub after you
    say yes, checks its size and SHA-256, and keeps only what it needs, next to the tool in `upscaler\`:
 
